@@ -1,7 +1,6 @@
 from botcity.web import WebBot, By
 from botcity.maestro import *
 from time import sleep
-
 import os
 import shutil
 
@@ -57,9 +56,36 @@ def main():
             bot.driver.find_element(By.XPATH, xpath_base_demais_resultados.format(i)).click()
             sleep(5)
         except Exception as e:
-            print(f"Erro ao clicar no resultado {i}: {e}") 
+            print(f"Erro ao clicar no resultado {i}: {e}")
 
-    sleep(15)
+    sleep(5)
+
+    # Download Images
+    bot.browse('https://unsplash.com/pt-br/')
+    bot.driver.maximize_window()
+    sleep(3)
+
+    # XPath dos resultados
+    xpath_primeiro_resultado = '//*[@id=":Rb5ue:"]/div/div/div[1]/div[1]/figure/div/div/a'
+    btn_baixar = '//*[@id="app"]/div/div/dialog/div/div[4]/div[3]/div/div[1]/div[1]/header/div[2]/div/div/a'
+
+    # Tenta clicar no primeiro resultado
+    try:
+        bot.driver.find_element(By.XPATH, xpath_primeiro_resultado).click()
+        sleep(5)
+    except Exception as e:
+        print(f"Erro ao clicar no primeiro resultado: {e}")
+
+    bot.driver.find_element(By.XPATH, btn_baixar).click()
+    sleep(20)
+
+    bot.type_right()
+    sleep(2)
+    bot.type_right()
+
+    bot.driver.find_element(By.XPATH, btn_baixar).click()
+    sleep(20)
+
     # Define os diretórios
     pasta_bot = os.path.dirname(os.path.abspath(__file__))
     pasta_documentos = os.path.join(pasta_bot, 'documentos')
